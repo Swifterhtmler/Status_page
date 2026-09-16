@@ -25,14 +25,8 @@ h1 {
     }
 }
 
-
-.outputContainerDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
+@media (max-width: 621px) {
+    
 #editMode {
     display: flex;
     flex-direction: row;
@@ -57,4 +51,13 @@ h1 {
   outline: none;
   border-radius: 1em;
   color: whitesmoke;
+}
+}
+
+
+.outputContainerDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
