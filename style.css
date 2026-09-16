@@ -40,6 +40,7 @@ h1 {
   background-color: rgb(10, 10,10);
   border: 1px solid darkslategray;
   padding: 15px;
+  font-size: 17px;
   border-radius: 1em;
   color: whitesmoke;
 }
@@ -48,6 +49,7 @@ h1 {
   background-color: rgb(10, 10,10);
   border: 0px solid rgb(20,20,20);
   padding: 15px;
+  font-size: 17px;
   outline: none;
   border-radius: 1em;
   color: whitesmoke;
@@ -56,6 +58,7 @@ h1 {
 #showHideButton {
  border: 1px solid darkslategray;
  padding: 15px;
+ font-size: 17px;
  border-radius: 15px;
  color: #757575;
  background-color: rgb(10, 10, 10);  
@@ -64,6 +67,7 @@ h1 {
 #showHideButton:hover {
  border: 1px solid gray;
  padding: 15px;
+ font-size: 17px;
  border-radius: 20px;
  color: #b5b0b0;
  background-color: rgb(10, 10, 10);  
