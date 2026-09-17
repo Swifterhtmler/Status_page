@@ -1,8 +1,8 @@
 // api/status.js
 export default async function handler(req, res) {
   // Load Upstash credentials from Vercel's environment variables
-  const UPSTASH_REST_URL = process.env.UPSTASH_REDIS_REST_URL; 
-  const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;  
+  const UPSTASH_REST_URL = process.env.UPSTASH_REDIS_REST_URL;
+  const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
   if (req.method === "GET") {
     // Fetch the current status from Upstash
@@ -13,6 +13,7 @@ export default async function handler(req, res) {
         },
       });
       const data = await response.json();
+      // Return ONLY the value (not the full object)
       res.status(200).json({ status: data.result || "Paikalla" });
     } catch (error) {
       console.error("Error fetching from Upstash:", error);
