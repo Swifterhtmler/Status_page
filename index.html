@@ -31,19 +31,16 @@
 
    displayDivInfo.style.display = "none";
 
-   // Fetch the latest status from Vercel function and extract the value manually
+   // Fetch the latest status from Vercel function
    async function fetchStatus() {
       try {
          const response = await fetch("/api/status");
-         const rawText = await response.text();
-         // Extract the value between {"value":" and "}
-         const start = rawText.indexOf('{"value":"') + 10;
-         const end = rawText.lastIndexOf('"}');
-         const status = rawText.slice(start, end);
-         output.textContent = status || "Paikalla";
+         const data = await response.json();
+         if (data.status) {
+            output.textContent = data.status;
+         }
       } catch (error) {
          console.error("Error fetching status:", error);
-         output.textContent = "Error: Could not fetch status";
       }
    }
 
@@ -68,28 +65,28 @@
             output.textContent = "Poissa";
             displayDivInfo.style.display = "block";
             displayDivInfo.innerHTML = "";
-            updateStatus("Poissa");
+            updateStatus("Poissa"); // Sync with Upstash
             break;
          case "ArrowRight":
             event.preventDefault();
             output.textContent = "Ruokatauolla";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
-            updateStatus("Ruokatauolla");
+            updateStatus("Ruokatauolla"); // Sync with Upstash
             break;
          case "ArrowLeft":
             event.preventDefault();
             output.textContent = "Suljettu";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
-            updateStatus("Suljettu");
+            updateStatus("Suljettu"); // Sync with Upstash
             break;
          case "ArrowUp":
             event.preventDefault();
             output.textContent = "Paikalla";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
-            updateStatus("Paikalla");
+            updateStatus("Paikalla"); // Sync with Upstash
             break;
       }
    });
@@ -98,7 +95,7 @@
    hideShow.addEventListener("click", (ev) => {
       const newStatus = text.value;
       output.textContent = newStatus;
-      updateStatus(newStatus);
+      updateStatus(newStatus); // Sync with Upstash
    });
 
    // Enter key in input field (update DOM + Upstash)
@@ -106,7 +103,7 @@
       if (ev.key === "Enter") {
          const newStatus = text.value;
          output.textContent = newStatus;
-         updateStatus(newStatus);
+         updateStatus(newStatus); // Sync with Upstash
       }
    });
 
