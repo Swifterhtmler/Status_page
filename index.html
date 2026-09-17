@@ -8,80 +8,108 @@
 </head>
 <body>
 
- <div class="outputContainerDiv">   
+ <div class="outputContainerDiv">
   <h1>ICT tuen sijainti nyt:</h1>
-
-
-
-  
-
   <div id="displayDiv"></div>
   <div id="displayDivInfo"></div>
  </div>
 
-
  <div class="top-container-edit-m">
-<div id="editHeaderMode">Statuksesi</div>    
-<div id="editMode">
-<input  type="text" id="texting" placeholder="Kirjoita jotain" >
-<button id="showHideButton">Lähetä</button>
-</div>
+   <div id="editHeaderMode">Statuksesi</div>
+   <div id="editMode">
+      <input type="text" id="texting" placeholder="Kirjoita jotain">
+      <button id="showHideButton">Lähetä</button>
+   </div>
  </div>
 
 <script>
-let text = document.getElementById("texting");
-let output = document.getElementById("displayDiv");
+   let text = document.getElementById("texting");
+   let output = document.getElementById("displayDiv");
+   let displayDivInfo = document.getElementById("displayDivInfo");
+   let edit = document.getElementById("editMode");
+   let hideShow = document.getElementById("showHideButton");
 
-let displayDivInfo = document.getElementById("displayDivInfo");
+   displayDivInfo.style.display = "none";
 
-let edit = document.getElementById("editMode");
-let hideShow = document.getElementById("showHideButton");
-          
-displayDivInfo.style.display = "none";
-
-document.addEventListener("keydown", event => {
-    switch(event.key) {
-      case "ArrowDown":
-         event.preventDefault();
-         output.textContent = "Poissa";
-         displayDivInfo.style.display = "block"
-         displayDivInfo.innerHTML = "Laurin numero: 044-423 5888 <br> Rikun numero: 040-354 1268";
-         
-         break;
-       case "ArrowRight":
-          event.preventDefault();
-          output.textContent = "Ruokatauolla";
-          displayDivInfo.style.display = "none";
-          displayDivInfo.innerHTML = "";
-          break;
-        break;
-        case "ArrowLeft":
-          event.preventDefault();
-          output.textContent = "Suljettu";
-         displayDivInfo.innerHTML = "";
-         displayDivInfo.style.display = "none";
-          break;
-        case "ArrowUp":
-         event.preventDefault();
-         output.textContent = "Paikalla";
-          displayDivInfo.style.display = "none";
-         displayDivInfo.innerHTML = "";
-         break;  
-              
-       
-    }
-});
-
-hideShow.addEventListener("click", (ev) => {
-   output.textContent = text.value;
-});
-
-
-text.addEventListener("keydown", (ev) => {
-   if (ev.key === "Enter") {
-       output.textContent = text.value;
+   // Fetch the latest status from Vercel function
+   async function fetchStatus() {
+      try {
+         const response = await fetch("/api/status");
+         const data = await response.json();
+         if (data.status) {
+            output.textContent = data.status;
+         }
+      } catch (error) {
+         console.error("Error fetching status:", error);
+      }
    }
-})
+
+   // Update status via Vercel function
+   async function updateStatus(newStatus) {
+      try {
+         await fetch("/api/status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus }),
+         });
+      } catch (error) {
+         console.error("Error updating status:", error);
+      }
+   }
+
+   // Keyboard shortcuts (update DOM + Upstash)
+   document.addEventListener("keydown", event => {
+      switch(event.key) {
+         case "ArrowDown":
+            event.preventDefault();
+            output.textContent = "Poissa";
+            displayDivInfo.style.display = "block";
+            displayDivInfo.innerHTML = "Laurin numero: 044-423 5888 <br> Rikun numero: 040-354 1268";
+            updateStatus("Poissa"); // Sync with Upstash
+            break;
+         case "ArrowRight":
+            event.preventDefault();
+            output.textContent = "Ruokatauolla";
+            displayDivInfo.style.display = "none";
+            displayDivInfo.innerHTML = "";
+            updateStatus("Ruokatauolla"); // Sync with Upstash
+            break;
+         case "ArrowLeft":
+            event.preventDefault();
+            output.textContent = "Suljettu";
+            displayDivInfo.style.display = "none";
+            displayDivInfo.innerHTML = "";
+            updateStatus("Suljettu"); // Sync with Upstash
+            break;
+         case "ArrowUp":
+            event.preventDefault();
+            output.textContent = "Paikalla";
+            displayDivInfo.style.display = "none";
+            displayDivInfo.innerHTML = "";
+            updateStatus("Paikalla"); // Sync with Upstash
+            break;
+      }
+   });
+
+   // Submit button (update DOM + Upstash)
+   hideShow.addEventListener("click", (ev) => {
+      const newStatus = text.value;
+      output.textContent = newStatus;
+      updateStatus(newStatus); // Sync with Upstash
+   });
+
+   // Enter key in input field (update DOM + Upstash)
+   text.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") {
+         const newStatus = text.value;
+         output.textContent = newStatus;
+         updateStatus(newStatus); // Sync with Upstash
+      }
+   });
+
+   // Poll for updates every 5 seconds
+   fetchStatus();
+   setInterval(fetchStatus, 5000);
 </script>
 
 </body>
