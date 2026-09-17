@@ -12,12 +12,12 @@ export default async function handler(req, res) {
           Authorization: `Bearer ${UPSTASH_TOKEN}`,
         },
       });
-      const data = await response.json(); // Parse the JSON response from Upstash
-      // Return the value of the 'result' field directly as a string
-      res.status(200).json({ status: data.result || "Paikalla" });
+      const data = await response.json();
+      // Return the response in the format {"value":"Your status here"}
+      res.status(200).json({ value: data.result || "Paikalla" });
     } catch (error) {
       console.error("Error fetching from Upstash:", error);
-      res.status(500).json({ error: "Failed to fetch status" });
+      res.status(500).json({ value: "Failed to fetch status" });
     }
   }
   else if (req.method === "POST") {
