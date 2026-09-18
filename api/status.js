@@ -13,7 +13,10 @@ export default async function handler(req, res) {
         },
       });
       const data = await response.json();
-      res.status(200).json({ status: data.result || "Paikalla" });
+      const status = typeof data.result === "object" && data.result !== null
+        ? data.result.value
+        : data.result;
+      res.status(200).json({ status: status || "Paikalla" });
     } catch (error) {
       console.error("Error fetching from Upstash:", error);
       res.status(500).json({ error: "Failed to fetch status" });
@@ -29,7 +32,7 @@ export default async function handler(req, res) {
           Authorization: `Bearer ${UPSTASH_TOKEN}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ value: status }),
+        body: JSON.stringify(status),
       });
       res.status(200).json({ success: true });
     } catch (error) {
