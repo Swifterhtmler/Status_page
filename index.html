@@ -31,15 +31,9 @@
 
    displayDivInfo.style.display = "none";
 
-   function updateStatusDisplay(status) {
-      output.textContent = status;
-      if (status === "Poissa") {
-         displayDivInfo.style.display = "block";
-         displayDivInfo.innerHTML = "Laurin numero: 044-423 5888 <br> Rikun numero: 040-3541268";
-      } else {
+
+   if (output.textContent != "Poissa") {
          displayDivInfo.style.display = "none";
-         displayDivInfo.innerHTML = "";
-      }
    }
 
 
@@ -49,7 +43,8 @@
          const response = await fetch("/api/status");
          const data = await response.json();
          if (data.status) {
-            updateStatusDisplay(data.status);
+            let cleanData = data.status.replaceAll('"', '')
+            output.textContent = cleanData;
          }
       } catch (error) {
          console.error("Error fetching status:", error);
@@ -74,22 +69,30 @@
       switch(event.key) {
          case "ArrowDown":
             event.preventDefault();
-            updateStatusDisplay("Poissa");
+            output.textContent = "Poissa";
+            displayDivInfo.style.display = "block";
+            displayDivInfo.innerHTML = "Laurin numero: 044-423 5888 <br> Rikun numero: 040-3541268";
             updateStatus("Poissa"); // Sync with Upstash
             break;
          case "ArrowRight":
             event.preventDefault();
-            updateStatusDisplay("Ruokatauolla");
+            output.textContent = "Ruokatauolla";
+            displayDivInfo.style.display = "none";
+            displayDivInfo.innerHTML = "";
             updateStatus("Ruokatauolla"); // Sync with Upstash
             break;
          case "ArrowLeft":
             event.preventDefault();
-            updateStatusDisplay("Suljettu");
+            output.textContent = "Suljettu";
+            displayDivInfo.style.display = "none";
+            displayDivInfo.innerHTML = "";
             updateStatus("Suljettu"); // Sync with Upstash
             break;
          case "ArrowUp":
             event.preventDefault();
-            updateStatusDisplay("Paikalla");
+            output.textContent = "Paikalla";
+            displayDivInfo.style.display = "none";
+            displayDivInfo.innerHTML = "";
             updateStatus("Paikalla"); // Sync with Upstash
             break;
       }
@@ -98,7 +101,7 @@
    // Submit button (update DOM + Upstash)
    hideShow.addEventListener("click", (ev) => {
       const newStatus = text.value;
-      updateStatusDisplay(newStatus);
+      output.textContent = newStatus;
       updateStatus(newStatus); // Sync with Upstash
    });
 
@@ -106,7 +109,7 @@
    text.addEventListener("keydown", (ev) => {
       if (ev.key === "Enter") {
          const newStatus = text.value;
-         updateStatusDisplay(newStatus);
+         output.textContent = newStatus;
          updateStatus(newStatus); // Sync with Upstash
       }
    });
