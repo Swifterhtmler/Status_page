@@ -37,7 +37,8 @@
          const response = await fetch("/api/status");
          const data = await response.json();
          if (data.status) {
-            output.textContent = data.status;
+            let cleanData = data.status.replaceAll('"', '')
+            output.textContent = cleanData;
          }
       } catch (error) {
          console.error("Error fetching status:", error);
