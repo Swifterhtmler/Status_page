@@ -31,6 +31,12 @@
 
    displayDivInfo.style.display = "none";
 
+
+   if (output.textContent != "Poissa") {
+         displayDivInfo.style.display = "none";
+   }
+
+
    // Fetch the latest status from Vercel function
    async function fetchStatus() {
       try {
