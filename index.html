@@ -9,7 +9,7 @@
 <body>
 
  <div class="outputContainerDiv">
-  <h1>ICT tuen sijainti nyt:</h1>
+  <h1 id="sijainti">ICT tuen sijainti nyt:</h1>
   <div id="displayDiv"></div>
   <div id="displayDivInfo"></div>
  </div>
@@ -27,6 +27,7 @@
    let output = document.getElementById("displayDiv");
    let displayDivInfo = document.getElementById("displayDivInfo");
    let edit = document.getElementById("editMode");
+   let locationText = document.getElementById("sijainti");
    let editModeDiv = document.getElementsByClassName("top-container-edit-m")[0];
    let hideShow = document.getElementById("showHideButton");
 
@@ -93,6 +94,7 @@
          case "ArrowDown":
             event.preventDefault();
             output.textContent = "Poissa";
+             locationText.style.display = "block";
             displayDivInfo.style.display = "block";
             displayDivInfo.classList.remove("neon-active-div");
             output.classList.remove("neon-active");
@@ -103,12 +105,14 @@
             event.preventDefault();
             output.textContent = "Ruokatauolla";
             displayDivInfo.style.display = "none";
+             locationText.style.display = "block";
             displayDivInfo.innerHTML = "";
             output.classList.remove("neon-active");
             updateStatus("Ruokatauolla"); // Sync with Upstash
             break;
          case "ArrowLeft":
             event.preventDefault();
+               locationText.style.display = "block";
             output.textContent = "Suljettu";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
@@ -117,6 +121,7 @@
             break;
          case "ArrowUp":
             event.preventDefault();
+             locationText.style.display = "block";
             output.textContent = "Paikalla";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
@@ -126,9 +131,10 @@
          case "Enter":
             event.preventDefault();
             output.textContent = "Lauri Paikalla Tänään";
-
+    
             // ooutputin stylelit
             displayDivInfo.style.display = "block";
+            locationText.style.display = "none";
             displayDivInfo.innerHTML = "Kello 10.00 - 17.00";
             displayDivInfo.style.fontSize = "2.0rem";
 
