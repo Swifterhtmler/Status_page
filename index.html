@@ -27,14 +27,18 @@
    let output = document.getElementById("displayDiv");
    let displayDivInfo = document.getElementById("displayDivInfo");
    let edit = document.getElementById("editMode");
+   let editModeDiv = document.getElementsByClassName("top-container-edit-m")[0];
    let hideShow = document.getElementById("showHideButton");
 
+   editModeDiv.style.visibility = "visible";
    displayDivInfo.style.display = "none";
 
 
    if (output.textContent != "Poissa") {
          displayDivInfo.style.display = "none";
    }
+
+
 
 
    // Fetch the latest status from Vercel function
@@ -50,6 +54,25 @@
          console.error("Error fetching status:", error);
       }
    }
+
+
+   function toggle() {
+      if (window.getComputedStyle(edit).display == "none") {
+         document.body.classList.add("q-mode");
+         editModeDiv.style.visibility = "visible";
+         edit.style.display = "flex";
+      } else {
+         document.body.classList.remove("q-mode");
+         editModeDiv.style.visibility = "hidden";
+         edit.style.display = "none";
+      }
+   } 
+
+   document.addEventListener("keydown", (event) => {
+      if (event.key === "q") {
+         toggle()
+      }
+   });
 
    // Update status via Vercel function
    async function updateStatus(newStatus) {
@@ -71,7 +94,9 @@
             event.preventDefault();
             output.textContent = "Poissa";
             displayDivInfo.style.display = "block";
-            displayDivInfo.innerHTML = "Laurin numero: 044-423 5888 <br> Rikun numero: 040-3541268";
+            displayDivInfo.classList.remove("neon-active-div");
+            displayDivInfo.innerHTML = "Rikun numero: 040-3541268";
+            output.classList.remove("neon-active-div");
             updateStatus("Poissa"); // Sync with Upstash
             break;
          case "ArrowRight":
@@ -79,6 +104,7 @@
             output.textContent = "Ruokatauolla";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
+            output.classList.remove("neon-active");
             updateStatus("Ruokatauolla"); // Sync with Upstash
             break;
          case "ArrowLeft":
@@ -86,6 +112,7 @@
             output.textContent = "Suljettu";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
+            output.classList.remove("neon-active");
             updateStatus("Suljettu"); // Sync with Upstash
             break;
          case "ArrowUp":
@@ -93,8 +120,29 @@
             output.textContent = "Paikalla";
             displayDivInfo.style.display = "none";
             displayDivInfo.innerHTML = "";
+            output.classList.remove("neon-active");
             updateStatus("Paikalla"); // Sync with Upstash
             break;
+         case "Enter":
+            event.preventDefault();
+            output.textContent = "Lauri Paikalla Tänään";
+
+            // ooutputin stylelit
+
+            displayDivInfo.style.display = "block";
+            displayDivInfo.innerHTML = "Kello 10.00 - 17.00";
+            displayDivInfo.style.fontSize = "3rem";
+
+            // displaydivinfo stylit
+
+           // displayDivInfo.style.backgroundColor = "red";
+
+               
+            output.classList.add("neon-active");
+            displayDivInfo.classList.add("neon-active-div");
+
+            updateStatus("Ruokatauolla"); // Sync with Upstash
+            break;   
       }
    });
 
@@ -117,6 +165,9 @@
    // Poll for updates every 5 seconds
    fetchStatus();
    setInterval(fetchStatus, 5000);
+
+
+
 </script>
 
 </body>

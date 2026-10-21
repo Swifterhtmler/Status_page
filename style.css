@@ -15,8 +15,9 @@ h1 {
     display: flex;
     color: white;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 120pt;
+    font-size: 140pt;
     font-weight: 500;
+    text-align: center;
     padding: 10px;
     margin-top: 100px;
     flex-wrap: wrap;
@@ -44,7 +45,12 @@ h1 {
     #editMode {
         display: none;
     }
+
+    #editHeaderMode {
+        display: none;
+    }
 }
+
 
 @media (max-width: 621px) {
     
@@ -142,4 +148,210 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+body.q-mode #displayDiv {
+    color: whitesmoke;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 30pt;
+    font-weight: 500;
+    padding: 10px;
+    margin-top: 100px;
+    flex-wrap: wrap;
+}
+
+body.q-mode h1 {
+    display: none;
+}
+
+body.q-mode #editMode {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    align-items: center;
+}
+
+body.q-mode #editHeaderMode {
+    display: block;
+    border: 1px solid darkslategray;
+    padding: 15px;
+    font-size: 17px;
+    text-align: center;
+    width: 270px;
+    border-radius: 15px;
+    color: #757575;
+    background-color: rgb(10, 10, 10);
+}
+
+body.q-mode #texting,
+body.q-mode #texting:focus {
+    background-color: rgb(10, 10, 10);
+    border: 1px solid darkslategray;
+    padding: 15px;
+    width: 165px;
+    font-size: 17px;
+    border-radius: 1em;
+    color: whitesmoke;
+}
+
+body.q-mode #texting:focus {
+    border: 0;
+    outline: none;
+}
+
+body.q-mode #showHideButton,
+body.q-mode #showHideButton:hover {
+    border: 1px solid darkslategray;
+    padding: 15px;
+    width: 100px;
+    font-size: 17px;
+    border-radius: 15px;
+    color: #757575;
+    background-color: rgb(10, 10, 10);
+}
+
+body.q-mode #showHideButton:hover {
+    border-color: gray;
+    width: 95px;
+    border-radius: 20px;
+    color: #b5b0b0;
+}
+
+
+
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes rotate-rainbow {
+  to { --angle: 360deg; }
+}
+
+/* Tämä luokka aktivoi neon-efektin */
+.neon-active {
+  position: relative;
+  font-family: 'Arial Black', sans-serif;
+  color: #fff;
+  background-color: #12121a;
+  border-radius: 30px;
+  margin: 30px;
+  animation: neon-pulse 3s ease-in-out infinite;
+  
+  /* Tekstin hehku */
+ @keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 4px #fff,
+      0 0 8px #ff007f,
+      0 0 15px #ff007f;
+    opacity: 0.95;
+  }
+  50% {
+    text-shadow: 
+      0 0 7px #fff,
+      0 0 14px #ff007f,
+      0 0 25px #ff007f;
+    opacity: 1;
+  }
+
+ }
+}
+
+/* Reunan pisteet ja hehku aktivoituvat vain luokan ollessa päällä */
+.neon-active::before,
+.neon-active::after {
+  content: '';
+  position: absolute;
+  inset: -17px; 
+  border-radius: 28px;
+  background: conic-gradient(
+    from var(--angle), 
+    #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000
+  );
+  -webkit-mask-image: radial-gradient(circle 3px at 3px 3px, #000 99%, transparent 100%);
+  -webkit-mask-size: 20px 20px;
+  mask-image: radial-gradient(circle 10px at 10px 10px, #000 99%, transparent 100%);
+  mask-size: 30px 30px;
+  animation: rotate-rainbow 3s linear infinite;
+  z-index: -1;
+}
+
+.neon-active::after {
+  filter: blur(15px);
+  opacity: 0.65;
+}
+
+
+/* 1. KORJAUS: Siirretty @keyframes pois luokan sisältä omaksi lohkokseen */
+@keyframes neon-pulse-div {
+  0%, 100% {
+    text-shadow: 
+      0 0 3px #fff,
+      0 0 6px #ff007f,
+      0 0 10px #ff007f;
+    opacity: 0.9;
+  }
+  50% {
+    text-shadow: 
+      0 0 6px #fff,
+      0 0 15px #ff007f,
+      0 0 15px #ff007f;
+    opacity: 1;
+  }
+}
+
+/* 2. Pienen laatikon pääluokka (300x50px) */
+.neon-active-div {
+  position: relative;
+  width: 590px;  /* Määritelty koko */
+  height: 50px;
+  display: flex; /* Keskittää tekstin laatikon sisällä */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  font-family: 'Arial Black', sans-serif;
+  font-size: 1rem; /* Pienempi teksti sopimaan laatikkoon */
+  color: #fff;
+  background-color: #12121a;
+  border-radius: 8px; /* Hieman terävämpi kulma pikkulaatikkoon */
+  margin: 30px;
+  opacity: 0.5;
+  /* Rauhallisempi ja hienovaraisempi pulssi (kesto 4 sekuntia) */
+  animation: neon-pulse-div 1s ease-in-out infinite;
+}
+
+/* 3. Hillityt ja tiheämmät sateenkaaripisteet */
+.neon-active-div::before,
+.neon-active-div::after {
+  content: '';
+  position: absolute;
+  /* KORJAUS: Pienempi inset (-4px), jotta reuna myötäilee laatikkoa siististi */
+  inset: -4px; 
+  border-radius: 11px; /* Muotoiltu sopimaan insetin kanssa */
+  
+  background: conic-gradient(
+    from var(--angle), 
+    #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000
+  );
+  
+  /* KORJAUS: Pienemmät 3px pisteet 8px välein. Nyt ne näyttävät siisteiltä helmiläeiltä */
+  -webkit-mask-image: radial-gradient(circle 1.5px at 1.5px 1.5px, #000 99%, transparent 100%);
+  -webkit-mask-size: 8px 8px;
+  mask-image: radial-gradient(circle 1.5px at 1.5px 1.5px, #000 99%, transparent 100%);
+  mask-size: 8px 8px;
+  
+  /* Hidastettu pyörimistä (6s), jotta se ei vilku liian levottomasti */
+  animation: rotate-rainbow 6s linear infinite;
+  z-index: -1;
+}
+
+/* 4. Erittäin hienovirainen taustahohto */
+.neon-active-div::after {
+  filter: blur(8px); /* Pienempi blur, ei levitä valoa liikaa */
+  opacity: 0.4;      /* Laskettu 0.65 -> 0.4, erittäin hillitty */
 }
