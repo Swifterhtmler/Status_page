@@ -93,10 +93,10 @@
          case "ArrowDown":
             event.preventDefault();
             output.textContent = "Poissa";
+            output.classList.remove("neon-active-div");
             displayDivInfo.style.display = "block";
             displayDivInfo.classList.remove("neon-active-div");
             displayDivInfo.innerHTML = "Rikun numero: 040-3541268";
-            output.classList.remove("neon-active-div");
             updateStatus("Poissa"); // Sync with Upstash
             break;
          case "ArrowRight":
