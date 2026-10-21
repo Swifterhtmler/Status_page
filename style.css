@@ -307,8 +307,8 @@ body.q-mode #showHideButton:hover {
 /* 2. Pienen laatikon pääluokka (300x50px) */
 .neon-active-div {
   position: relative;
-  width: 590px;  /* Määritelty koko */
-  height: 50px;
+  width: 480px;  /* Määritelty koko */
+  height: 40px;
   display: flex; /* Keskittää tekstin laatikon sisällä */
   justify-content: center;
   align-items: center;
@@ -319,7 +319,7 @@ body.q-mode #showHideButton:hover {
   color: #fff;
   background-color: #12121a;
   border-radius: 8px; /* Hieman terävämpi kulma pikkulaatikkoon */
-  margin: 30px;
+
   opacity: 0.5;
   /* Rauhallisempi ja hienovaraisempi pulssi (kesto 4 sekuntia) */
   animation: neon-pulse-div 1s ease-in-out infinite;

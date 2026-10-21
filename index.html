@@ -93,9 +93,9 @@
          case "ArrowDown":
             event.preventDefault();
             output.textContent = "Poissa";
-            output.classList.remove("neon-active-div");
             displayDivInfo.style.display = "block";
             displayDivInfo.classList.remove("neon-active-div");
+            output.classList.remove("neon-active");
             displayDivInfo.innerHTML = "Rikun numero: 040-3541268";
             updateStatus("Poissa"); // Sync with Upstash
             break;
@@ -128,12 +128,11 @@
             output.textContent = "Lauri Paikalla Tänään";
 
             // ooutputin stylelit
-
             displayDivInfo.style.display = "block";
             displayDivInfo.innerHTML = "Kello 10.00 - 17.00";
-            displayDivInfo.style.fontSize = "3rem";
+            displayDivInfo.style.fontSize = "2.0rem";
 
-            // displaydivinfo stylit
+            // displaydivinfo stylit;
 
            // displayDivInfo.style.backgroundColor = "red";
 
