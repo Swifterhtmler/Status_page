@@ -101,6 +101,9 @@ h1 {
 }
 
 #editHeaderMode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
  border: 1px solid darkslategray;
  padding: 15px;
  font-size: 17px;
@@ -116,7 +119,9 @@ h1 {
    flex-direction: column;
    justify-content: center;
    gap: 10px;
+
    align-items: center;
+   
 }
 
 #showHideButton {
