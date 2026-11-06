@@ -172,10 +172,24 @@
    // Enter key in input field (update DOM + Upstash)
    text.addEventListener("keydown", (ev) => {
       if (ev.key === "Enter") {
+         
+         
          const newStatus = text.value;
          output.textContent = newStatus;
          toggle();
+         displayDivInfo.style.display = "none";
          updateStatus(newStatus); // Sync with Upstash
+      }
+   });
+
+    text.addEventListener("keydown", (ev) => {
+      if (ev.key === "PageDown") {
+
+         const newStatus = text.value;
+          displayDivInfo.style.display = "none";
+         output.textContent = newStatus;
+         toggle();
+        // not syncing to upstach so the preview stys local
       }
    });
 
