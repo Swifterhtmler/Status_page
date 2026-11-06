@@ -15,7 +15,7 @@
  </div>
 
  <div class="top-container-edit-m" style="display: flex; flex-direction: column; justify-content: center; align-items: center;  text-align: center;">
-   <div id="editHeaderMode"">Statuksesi</div>
+   <div id="editHeaderMode">Statuksesi</div>
    <div id="editMode">
       <input type="text" id="texting" placeholder="Kirjoita jotain">
       <button id="showHideButton">Lähetä</button>
@@ -62,16 +62,27 @@
          document.body.classList.add("q-mode");
          editModeDiv.style.visibility = "visible";
          edit.style.display = "flex";
+         displayDivInfo.style.display = "none";
+         output.classList.remove('neon-active-div'); 
+         output.classList.remove('neon-active');
+         text.focus();
+      
       } else {
          document.body.classList.remove("q-mode");
          editModeDiv.style.visibility = "hidden";
          edit.style.display = "none";
+         output.classList.remove('neon-active-div'); 
+         output.classList.remove('neon-active');
       }
    } 
 
    document.addEventListener("keydown", (event) => {
       if (event.key === "q") {
+         event.preventDefault()
          toggle()
+         text.value = "";
+         output.classList.remove('neon-active-div'); 
+         output.classList.remove('neon-active');
       }
    });
 
@@ -128,7 +139,7 @@
             output.classList.remove("neon-active");
             updateStatus("Paikalla"); // Sync with Upstash
             break;
-         case "Enter":
+         case "Home":
             event.preventDefault();
             output.textContent = "Lauri Paikalla Tänään";
     
@@ -163,6 +174,7 @@
       if (ev.key === "Enter") {
          const newStatus = text.value;
          output.textContent = newStatus;
+         toggle();
          updateStatus(newStatus); // Sync with Upstash
       }
    });
