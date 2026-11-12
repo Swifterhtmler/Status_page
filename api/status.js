@@ -5,6 +5,10 @@ export default async function handler(req, res) {
   const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;   // Updated variable name
 
   if (req.method === "GET") {
+   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+   res.setHeader('Pragma', 'no-cache');
+   res.setHeader('Expires', '0');
+
     // Fetch the current status from Upstash
     try {
       const response = await fetch(`${UPSTASH_REST_URL}/get/status`, {
