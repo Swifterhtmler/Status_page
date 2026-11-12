@@ -26,10 +26,28 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Failed to fetch status" });
     }
   }
+
+
+
   else if (req.method === "POST") {
-    // Update the status in Upstash
     try {
-      const { status } = req.body;
+      // 1. Varmistetaan että body luetaan oikein, tuli se tekstinä tai objektina
+      let parsedBody = req.body;
+      if (typeof req.body === "string") {
+        parsedBody = JSON.parse(req.body);
+      }
+
+      const status = parsedBody?.status;
+
+      // 2. Jos status on tyhjä, pysäytetään ja kerrotaan syy heti
+      if (!status) {
+        return res.status(400).json({ 
+          error: "Status-kenttä puuttuu!", 
+          receivedBody: req.body 
+        });
+      }
+
+      // 3. Tallennetaan puhdas teksti Upstashiin
       await fetch(`${UPSTASH_REST_URL}/set/status`, {
         method: "POST",
         headers: {
@@ -38,12 +56,18 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify(status),
       });
-      res.status(200).json({ success: true });
+
+      // 4. Palautetaan kuittaus ja tallennettu teksti
+      res.status(200).json({ success: true, savedStatus: status });
+
     } catch (error) {
       console.error("Error updating Upstash:", error);
-      res.status(500).json({ error: "Failed to update status" });
+      res.status(500).json({ error: "Failed to update status", details: error.message });
     }
   }
+
+  
+
   else {
     res.status(405).json({ error: "Method not allowed" });
   }
