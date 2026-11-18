@@ -50,6 +50,9 @@
          if (data.status) {
             let cleanData = data.status.replaceAll('"', '')
             output.textContent = cleanData;
+            output.classList.remove('neon-active-div'); 
+            output.classList.remove('neon-active');
+
          }
       } catch (error) {
          console.error("Error fetching status:", error);
@@ -81,7 +84,8 @@
          event.preventDefault()
          toggle()
          text.value = "";
-         output.classList.remove('neon-active-div'); 
+         output.classList.remove('neon-active-div');
+         displayDivInfo.style.display = "none"; 
          output.classList.remove('neon-active');
       }
    });
@@ -171,9 +175,7 @@
 
    // Enter key in input field (update DOM + Upstash)
    text.addEventListener("keydown", (ev) => {
-      if (ev.key === "Enter") {
-         
-         
+      if (ev.key === "Enter") {         
          const newStatus = text.value;
          output.textContent = newStatus;
          toggle();
@@ -182,14 +184,14 @@
       }
    });
 
+
     text.addEventListener("keydown", (ev) => {
       if (ev.key === "PageDown") {
-
          const newStatus = text.value;
           displayDivInfo.style.display = "none";
          output.textContent = newStatus;
          toggle();
-        // not syncing to upstach so the preview stys local
+        // not syncing to upstach so the preview stays local
       }
    });
 
